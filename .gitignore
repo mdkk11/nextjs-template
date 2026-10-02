@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Next.js and generated output
+.next/
+next-env.d.ts
+out/
+storybook-static/
+playwright-report/
+test-results/
+coverage/
+*.tsbuildinfo
+
+# Local environment and logs
+.env*
+!.env.example
+*.log
+pnpm-debug.log*
+
+# OS files
+.DS_Store

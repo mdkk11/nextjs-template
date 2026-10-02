@@ -1,0 +1,11 @@
+packages:
+  - "./"
+
+saveExact: true
+
+minimumReleaseAge: 10080
+minimumReleaseAgeExcludePrune: true
+
+allowBuilds:
+  esbuild: true
+  lefthook: true
