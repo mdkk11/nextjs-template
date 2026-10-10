@@ -8,6 +8,15 @@ updates:
       timezone: Asia/Tokyo
     cooldown:
       default-days: 7
+    ignore:
+      # StorybookがTypeScript 7を正式対応するまで7.xを保留する
+      - dependency-name: typescript
+        versions:
+          - "7.x"
+      # package.jsonのNode.js runtimeと型定義のmajorを揃える
+      - dependency-name: "@types/node"
+        update-types:
+          - version-update:semver-major
     groups:
       all-dependencies:
         patterns:
