@@ -6,12 +6,12 @@
 
 `.github/workflows/ci.yml`はpull request、`main`へのpush、手動実行で動きます。権限は`contents: read`に限定。同じブランチの古い実行は中止します。利用するActionは完全なバージョンタグで参照します。commit SHAとリポジトリの識別子は`.github/workflows/actions.lock`に固定します。
 
-| ジョブ    | 責務                                         | 必須チェック |
-| --------- | -------------------------------------------- | ------------ |
-| `quality` | `format:check`、`lint`、`typecheck`、`knip`  | はい         |
-| `test`    | Chromiumを導入し、UnitとComponentを実行      | はい         |
-| `build`   | Next.jsをビルド                              | はい         |
-| `e2e`     | Chromiumを導入し、ビルド後にPlaywrightを実行 | いいえ       |
+| ジョブ    | 責務                                                                | 必須チェック |
+| --------- | ------------------------------------------------------------------- | ------------ |
+| `quality` | Actionのlockfile、`format:check`、`lint`、`typecheck`、`knip`を検証 | はい         |
+| `test`    | Chromiumを導入し、UnitとComponentを実行                             | はい         |
+| `build`   | Next.jsをビルド                                                     | はい         |
+| `e2e`     | Chromiumを導入し、ビルド後にPlaywrightを実行                        | いいえ       |
 
 各ジョブのインストールに使うのは`pnpm install --frozen-lockfile`です。`build`だけが`.next/cache`を再利用し、ビルド成果物はジョブ間で共有しません。
 
