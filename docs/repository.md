@@ -4,14 +4,14 @@
 
 ## CI
 
-`.github/workflows/ci.yml`はpull request、`main`へのpush、手動実行で動きます。権限は`contents: read`に限定。同じブランチの古い実行は中止します。利用するActionは完全なcommit SHAで固定しています。
+`.github/workflows/ci.yml`はpull request、`main`へのpush、手動実行で動きます。権限は`contents: read`に限定。同じブランチの古い実行は中止します。利用するActionは完全なバージョンタグで参照します。commit SHAとリポジトリの識別子は`.github/workflows/actions.lock`に固定します。
 
-| ジョブ    | 責務                                         | 必須チェック |
-| --------- | -------------------------------------------- | ------------ |
-| `quality` | `format:check`、`lint`、`typecheck`、`knip`  | はい         |
-| `test`    | Chromiumを導入し、UnitとComponentを実行      | はい         |
-| `build`   | Next.jsをビルド                              | はい         |
-| `e2e`     | Chromiumを導入し、ビルド後にPlaywrightを実行 | いいえ       |
+| ジョブ    | 責務                                                                | 必須チェック |
+| --------- | ------------------------------------------------------------------- | ------------ |
+| `quality` | Actionのlockfile、`format:check`、`lint`、`typecheck`、`knip`を検証 | はい         |
+| `test`    | Chromiumを導入し、UnitとComponentを実行                             | はい         |
+| `build`   | Next.jsをビルド                                                     | はい         |
+| `e2e`     | Chromiumを導入し、ビルド後にPlaywrightを実行                        | いいえ       |
 
 各ジョブのインストールに使うのは`pnpm install --frozen-lockfile`です。`build`だけが`.next/cache`を再利用し、ビルド成果物はジョブ間で共有しません。
 
@@ -22,6 +22,8 @@ E2Eが失敗した場合は`playwright-report`と`test-results`を14日間保存
 DependabotはnpmパッケージとGitHub Actionsを毎週更新します。実行時刻はAsia/Tokyoの08:00、公開直後の更新を避ける期間は7日です。
 
 npmは`all-dependencies`、GitHub Actionsは`all-actions`として、それぞれ1つのグループへまとめます。自動マージは行いません。
+
+DependabotがActionを更新すると、対応するlockfileも同じpull requestで更新されます。workflowのAction参照を手動で追加、削除、更新した場合は`gh actions-lock`を実行し、生成されたlockfileをworkflowと一緒にコミットします。lockfileは直接編集しません。
 
 通常更新の7日間という基準は、pnpmの`minimumReleaseAge`と揃えています。緊急のセキュリティ修正は通常更新と分け、必要なバージョンを確認して対応します。
 

@@ -7,4 +7,5 @@
 - Avoid snapshots. Every lint suppression needs a reason comment. Do not weaken lint, type, or test rules.
 - Browser mutations use Route Handlers, not Server Actions by default. Validate untrusted Route Handler input and JSON responses with Zod.
 - Read environment variables through `@/lib/env`; never expose secrets with `NEXT_PUBLIC_`. Keep the schema and `.env.example` synchronized when variables are added.
+- When adding, removing, or updating GitHub Actions dependencies, run `gh actions-lock`; never edit `.github/workflows/actions.lock` by hand.
 - Run `pnpm verify` before completion.
